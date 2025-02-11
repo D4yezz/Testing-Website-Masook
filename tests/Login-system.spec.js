@@ -1,9 +1,9 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
 
-// jum'at, 31-01-2025
 
-test("Login berhasil(TC001)", async ({ page }) => {
+
+test("Login (TC001)", async ({ page }) => {
   await page.goto("https://sim.dev.masook.id/");
   await page.waitForLoadState('load');
   await page
@@ -17,7 +17,7 @@ test("Login berhasil(TC001)", async ({ page }) => {
 
 
 
-test("Logout (TC004)", async ({ page }) => {
+test("Logout (TC002)", async ({ page }) => {
   await page.goto("https://sim.dev.masook.id/");
   await page.waitForLoadState('load');
   await page
@@ -34,7 +34,7 @@ test("Logout (TC004)", async ({ page }) => {
 
 
 
-test("Login gagal(TC002)", async ({ page }) => {
+test("Login gagal(TC003)", async ({ page }) => {
   await page.goto("https://sim.dev.masook.id/");
   await page.waitForLoadState('load');
   await page
@@ -49,4 +49,3 @@ test("Login gagal(TC002)", async ({ page }) => {
     .nth(3);
   await expect(message).toBeVisible();
 });
-// jum'at, 31-01-2025
