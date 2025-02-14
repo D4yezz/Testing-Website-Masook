@@ -585,6 +585,7 @@ test.describe("Menu (Draft)", () => {
   });
 
   test("Statistik (TC007)", async ({ page }) => {
+    test.setTimeout(50000);
     await page.goto("https://sim.dev.masook.id/");
     await page.waitForLoadState("load");
     await page
@@ -603,35 +604,94 @@ test.describe("Menu (Draft)", () => {
     );
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
-    await page.getByRole('row', { name: 'testing Aktif 28 Feb 2025 s/d' }).locator('#moreMenu').click();
-    await page.getByRole('menuitem', { name: 'Statistik' }).click();
-    await page.getByText('testing', { exact: true }).nth(1).click();
+    await page
+      .getByRole("row", { name: "testing Aktif 28 Feb 2025 s/d" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Statistik" }).click();
+    await page.getByText("testing", { exact: true }).nth(1).click();
 
     // toggle filter
-    await page.getByRole('button').filter({ hasText: /^$/ }).nth(1).click();
-    await page.locator('div').filter({ hasText: /^Tanggal$/ }).click();
-    await page.getByRole('button', { name: 'February' }).click();
-    await page.getByRole('button', { name: '2025', exact: true }).click();
-    await page.getByText('2010').click();
-    await page.getByRole('button', { name: 'Jun' }).click();
-    await page.getByRole('button', { name: '12' }).click();
-    await page.locator('div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot').first().click();
-    await page.locator('form').getByRole('button').first().click();
-    await page.getByRole('option', { name: '02' }).locator('div').first().click();
-    await page.locator('form').getByRole('button').nth(1).click();
-    await page.getByRole('option', { name: '03' }).locator('div').first().click({force: true});
-    await page.getByRole('button', { name: 'Pilih' }).click();
-    await page.locator('div').filter({ hasText: /^Tanggal$/ }).click();
-    await page.getByRole('button', { name: '20', exact: true }).click();
-    await page.locator('div:nth-child(2) > .row > div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot').click();
-    await page.locator('#app').getByRole('document').filter({ hasText: 'Pilih WaktuBatalResetPilih' }).getByRole('button').first().click();
-    await page.getByRole('option', { name: '11' }).locator('div').first().click();
-    await page.locator('form').filter({ hasText: '11BatalResetPilih' }).getByRole('button').nth(1).click();
+    await page.getByRole("button").filter({ hasText: /^$/ }).nth(1).click();
+    await page
+      .locator("div")
+      .filter({ hasText: /^Tanggal$/ })
+      .click();
+    await page.getByRole("button", { name: "February" }).click();
+    await page.getByRole("button", { name: "2025", exact: true }).click();
+    await page.getByText("2010").click();
+    await page.getByRole("button", { name: "Jun" }).click();
+    await page.getByRole("button", { name: "12" }).click();
+    await page
+      .locator(
+        "div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot"
+      )
+      .first()
+      .click();
+    await page.locator("form").getByRole("button").first().click();
+    await page
+      .getByRole("option", { name: "02" })
+      .locator("div")
+      .first()
+      .click();
+    await page.locator("form").getByRole("button").nth(1).click();
+    await page
+      .getByRole("option", { name: "03" })
+      .locator("div")
+      .first()
+      .click({ force: true });
+    await page.getByRole("button", { name: "Pilih" }).click();
+    await page
+      .locator("div")
+      .filter({ hasText: /^Tanggal$/ })
+      .click();
+    await page.getByRole("button", { name: "20", exact: true }).click();
+    await page
+      .locator(
+        "div:nth-child(2) > .row > div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot"
+      )
+      .click();
+    await page
+      .locator("#app")
+      .getByRole("document")
+      .filter({ hasText: "Pilih WaktuBatalResetPilih" })
+      .getByRole("button")
+      .first()
+      .click();
+    await page
+      .getByRole("option", { name: "11" })
+      .locator("div")
+      .first()
+      .click();
+    await page
+      .locator("form")
+      .filter({ hasText: "11BatalResetPilih" })
+      .getByRole("button")
+      .nth(1)
+      .click();
     await page.waitForTimeout(500);
-    await page.getByRole('option', { name: '05' }).click({force:true});
-    await page.getByRole('button', { name: 'Pilih' }).click();
-    await page.getByRole('button', { name: 'Terapkan' }).click();
+    await page.getByRole("option", { name: "05" }).click({ force: true });
+    await page.getByRole("button", { name: "Pilih" }).click();
+    await page.getByRole("button", { name: "Terapkan" }).click();
+    // toggle filter
 
-
+    await page.locator("canvas").click({
+      position: {
+        x: 231,
+        y: 131,
+      },
+    });
+    await page.locator("canvas").click({
+      position: {
+        x: 237,
+        y: 153,
+      },
+    });
+    await page.locator("canvas").click({
+      position: {
+        x: 233,
+        y: 181,
+      },
+    });
   });
 });
