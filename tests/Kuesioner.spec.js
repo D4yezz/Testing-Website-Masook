@@ -493,16 +493,145 @@ test.describe("Menu (Draft)", () => {
     );
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
+    // Tab Informasi Umum
     await page
-      .getByRole("row", { name: "testing Aktif 13 Feb 2025 s/d" })
+      .getByRole("row", { name: "testing Aktif 28 Feb 2025 s/d" })
       .locator("#moreMenu")
       .click();
     await page.getByRole("menuitem", { name: "Detail" }).click();
-    await page.locator(".v-text-field__slot").first().click();
-    await expect(page.locator('.mt-2 > div > .v-input__control > .v-text-field__details > .v-messages').first()).toHaveText('Isikan judul kuesioner');
+    await expect(page.locator('[data-vv-name="nama"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+    await expect(page.locator('[data-vv-name="deskripsi"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+    await page.getByRole("button", { name: "Lihat Target Terpilih" }).click();
+    await expect(
+      page.getByRole("paragraph").filter({ hasText: "Alip Test" })
+    ).toHaveText("Alip Test");
     await page
-      .locator('div:nth-child(4) > .v-input__control > .v-input__slot')
+      .getByRole("banner")
+      .filter({ hasText: "Daftar Anggota Terpilih" })
+      .getByRole("button")
       .click();
-    await expect(page.locator('div:nth-child(4) > .v-input__control > .v-text-field__details > .v-messages').first()).toHaveText('Isikan deskripsi kuesioner');
+
+    var next = await page
+      .getByRole("list")
+      .filter({ hasText: "123456" })
+      .getByLabel("Next page");
+
+    for (let i = 0; i < 5; i++) {
+      await next.click();
+      await page.waitForLoadState("load");
+    }
+    await expect(
+      page
+        .getByRole("list")
+        .filter({ hasText: "123456" })
+        .getByLabel("Previous page")
+    ).toBeEnabled();
+    await expect(
+      page.getByRole("button", { name: "Current Page, Page 6" })
+    ).toHaveClass("v-pagination__item v-pagination__item--active primary");
+
+    await page
+      .locator("div")
+      .filter({ hasText: /^Hal\.6$/ })
+      .nth(1)
+      .click();
+    await page.getByRole("option", { name: "4" }).click();
+    await expect(
+      page.getByRole("button", { name: "Current Page, Page 4" })
+    ).toHaveClass("v-pagination__item v-pagination__item--active primary");
+
+    // Tab Kuesioner Masook
+    await page.getByRole("tab", { name: "Kuesioner Masook" }).click();
+    await expect(page.locator('[data-vv-name="survey_1"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+    await expect(page.locator('[data-vv-name="opsi_1"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+    await expect(page.locator('[placeholder="opsi 1"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+    await expect(page.locator('[placeholder="opsi 2"]')).toHaveAttribute(
+      "readonly",
+      "readonly"
+    );
+
+    // Tab Pratinjau Kuesioner
+    await page.getByRole("tab", { name: "Pratinjau Kuesioner" }).click();
+    await expect(page.getByText("testing").nth(1)).toHaveText("testing");
+    await page
+      .locator("div")
+      .filter({ hasText: /^test 1$/ })
+      .locator("div")
+      .nth(1)
+      .click();
+    await expect(page.locator('input[value="test 1"]')).toBeChecked();
+    await page
+      .locator("div")
+      .filter({ hasText: /^test 2$/ })
+      .locator("div")
+      .nth(1)
+      .click();
+    await expect(page.locator('input[value="test 2"]')).toBeChecked();
+  });
+
+  test("Statistik (TC007)", async ({ page }) => {
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+    await page.getByRole('row', { name: 'testing Aktif 28 Feb 2025 s/d' }).locator('#moreMenu').click();
+    await page.getByRole('menuitem', { name: 'Statistik' }).click();
+    await page.getByText('testing', { exact: true }).nth(1).click();
+
+    // toggle filter
+    await page.getByRole('button').filter({ hasText: /^$/ }).nth(1).click();
+    await page.locator('div').filter({ hasText: /^Tanggal$/ }).click();
+    await page.getByRole('button', { name: 'February' }).click();
+    await page.getByRole('button', { name: '2025', exact: true }).click();
+    await page.getByText('2010').click();
+    await page.getByRole('button', { name: 'Jun' }).click();
+    await page.getByRole('button', { name: '12' }).click();
+    await page.locator('div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot').first().click();
+    await page.locator('form').getByRole('button').first().click();
+    await page.getByRole('option', { name: '02' }).locator('div').first().click();
+    await page.locator('form').getByRole('button').nth(1).click();
+    await page.getByRole('option', { name: '03' }).locator('div').first().click({force: true});
+    await page.getByRole('button', { name: 'Pilih' }).click();
+    await page.locator('div').filter({ hasText: /^Tanggal$/ }).click();
+    await page.getByRole('button', { name: '20', exact: true }).click();
+    await page.locator('div:nth-child(2) > .row > div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-text-field__slot').click();
+    await page.locator('#app').getByRole('document').filter({ hasText: 'Pilih WaktuBatalResetPilih' }).getByRole('button').first().click();
+    await page.getByRole('option', { name: '11' }).locator('div').first().click();
+    await page.locator('form').filter({ hasText: '11BatalResetPilih' }).getByRole('button').nth(1).click();
+    await page.waitForTimeout(500);
+    await page.getByRole('option', { name: '05' }).click({force:true});
+    await page.getByRole('button', { name: 'Pilih' }).click();
+    await page.getByRole('button', { name: 'Terapkan' }).click();
+
+
   });
 });
