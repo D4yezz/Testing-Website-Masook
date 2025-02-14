@@ -141,3 +141,28 @@ import { test, expect } from "@playwright/test";
 
     
   })
+
+  test("Refresh(TC003)", async ({ page }) => {
+    test.setTimeout(60000);
+    await page.goto('https://sim.dev.masook.id/#/login');
+    
+    // Login
+    await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+    await page.getByText('Jayantara Indonesia').click();
+    await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+    
+    // Klik tombol refresh
+    await page.locator('#refresh').click();
+  
+    // Tunggu 2 detik untuk memastikan loading terlihat
+    await page.waitForSelector('.v-overlay__content .v-progress-circular', { state: 'hidden' });
+    
+    
+    await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/klaimPresensi');
+  
+    // Test selesai
+  })
+  
+  
