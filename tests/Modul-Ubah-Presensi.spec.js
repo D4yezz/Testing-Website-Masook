@@ -164,5 +164,192 @@ import { test, expect } from "@playwright/test";
   
     // Test selesai
   })
+
   
+  test.describe('Titik Tiga (TC004)', ()=>{
+    test("Pratinjau(TC001)", async ({ page }) => {
+      test.setTimeout(60000);
+      await page.goto('https://sim.dev.masook.id/#/login');
+      await page.getByRole('textbox', { name: 'Username' }).click();
+      await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+      await page.getByRole('button', { name: 'Masuk' }).click();
+      await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+    
+      await page.getByText('Jayantara Indonesia').click();
+      await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+     
+      await page.getByRole('row', { name: 'Kamis, 29-08-2024 Adi' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Pratinjau' }).click();
+      await page.getByRole('button', { name: 'Tutup' }).click();
+      await page.getByRole('row', { name: 'Minggu, 03-03-2024 Adi' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Pratinjau' }).click();
+      await page.getByRole('banner').getByRole('button').click();
   
+      
+    })
+  
+    
+    test("Ubah (TC002)", async ({ page }) => {
+      test.setTimeout(60000);
+      await page.goto('https://sim.dev.masook.id/#/login');
+      await page.getByRole('textbox', { name: 'Username' }).click();
+      await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+      await page.getByRole('button', { name: 'Masuk' }).click();
+      await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+    
+      await page.getByText('Jayantara Indonesia').click();
+      await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+      await page.locator('#add').click();
+      await page.getByRole('textbox', { name: 'Pilih Anggota' }).click();
+      await page.getByRole('option', { name: 'Alip test' }).locator('div').first().click();
+      await page.getByRole('textbox', { name: 'Tanggal' }).click();
+      await page.getByRole('button', { name: '17' }).click();
+      await page.getByRole('textbox', { name: 'Keterangan' }).click();
+      await page.locator('[data-vv-name= "keterangan"]').fill('test ubah');
+      await page.getByRole('button', { name: 'Simpan' }).dblclick();
+      await page.getByRole('row', { name: 'Senin, 17-02-2025 Alip test' }).locator('#moreMenu').click();
+      await page.waitForTimeout(2000)
+      await page.getByRole('menuitem', { name: 'Ubah' }).click();
+      await page.getByRole('button', { name: 'Diisi jika akan pulang cepat' }).nth(1).click();
+      await page.getByRole('option', { name: 'Skor 4 (>90)' }).locator('div').first().click();
+      await page.getByRole('button', { name: 'Simpan' }).click();
+      await page.getByRole('row', { name: 'Senin, 17-02-2025 Alip test' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Pratinjau' }).click();
+      await page.getByRole('button', { name: 'Tutup' }).click();
+      await page.getByRole('row', { name: 'Senin, 17-02-2025 Alip test' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Hapus' }).click();
+      await page.getByRole('button', { name: 'Ya' }).click();
+      
+    })
+    
+    test("Hapus (TC003)", async ({ page }) => {
+      test.setTimeout(60000);
+      await page.goto('https://sim.dev.masook.id/#/login');
+      await page.getByRole('textbox', { name: 'Username' }).click();
+      await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+      await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+      await page.getByRole('button', { name: 'Masuk' }).click();
+      await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+    
+      await page.getByText('Jayantara Indonesia').click();
+      await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+      await page.getByRole('row', { name: 'Selasa, 01-05-2125 Alip test' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Hapus' }).click();
+      await page.getByRole('button', { name: 'Ya' }).click();
+      await page.getByRole('row', { name: 'Jumat, 06-03-1925 Alip test' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Hapus' }).click();
+      await page.getByRole('button', { name: 'Ya' }).click();
+      await page.getByRole('row', { name: 'Jumat, 14-02-2025 Alip test alipia1144@gmail.com 1 - - 1.5 Senin, 17-02-2025 󰇙' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Hapus' }).click();
+      await page.getByRole('button', { name: 'Ya' }).click();
+      await page.getByRole('row', { name: 'Jumat, 14-02-2025 Alip test' }).locator('#moreMenu').click();
+      await page.getByRole('menuitem', { name: 'Hapus' }).click();
+      await page.getByRole('button', { name: 'Ya' }).click();
+  
+    })
+  
+  })
+
+  test("Halaman Dropdown (TC005)", async ({ page }) => {
+    test.setTimeout(60000);
+    await page.goto('https://sim.dev.masook.id/#/login');
+    await page.getByRole('textbox', { name: 'Username' }).click();
+    await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+    await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+  
+    await page.getByText('Jayantara Indonesia').click();
+    await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+    
+    
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '2' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '3' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '4' }).click()
+    await page.waitForTimeout(1000);
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '5' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '6' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '7' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '8' }).click();
+    await page.waitForTimeout(1000)
+    await page.getByRole('button', { name: 'Hal.' }).click();
+    await page.getByRole('option', { name: '9' }).click();
+    await page.waitForTimeout(2000)
+
+  })
+
+  test("Halaman Button (TC006)", async ({ page }) => {
+    test.setTimeout(60000);
+    await page.goto('https://sim.dev.masook.id/#/login');
+    await page.getByRole('textbox', { name: 'Username' }).click();
+    await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+    await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+  
+    await page.getByText('Jayantara Indonesia').click();
+    await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+    
+    await page.getByRole('button', { name: 'Current Page, Page' }).click();
+    await page.getByRole('button', { name: 'Goto Page 2' }).click();
+    await page.getByRole('button', { name: 'Goto Page 3' }).click();
+    await page.getByRole('button', { name: 'Goto Page 4' }).click();
+    await page.getByRole('button', { name: 'Goto Page 5' }).click();
+    await page.getByRole('button', { name: 'Goto Page 6' }).click();
+    await page.getByRole('button', { name: 'Goto Page 7' }).click();
+    await page.getByRole('button', { name: 'Goto Page 8' }).click();
+    await page.getByRole('button', { name: 'Goto Page 9' }).click();
+  })
+
+  test("Next Arrow Button (TC007)", async ({ page }) => {
+    test.setTimeout(60000);
+    await page.goto('https://sim.dev.masook.id/#/login');
+    await page.getByRole('textbox', { name: 'Username' }).click();
+    await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+    await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+  
+    await page.getByText('Jayantara Indonesia').click();
+    await page.getByRole('link', { name: 'Ubah Presensi' }).click();
+    
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Next page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('button', { name: 'Previous page' }).click();
+    await page.getByRole('listitem').filter({ hasText: /^$/ }).first().click();
+  })
+
+
