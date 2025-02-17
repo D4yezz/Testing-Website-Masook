@@ -585,7 +585,7 @@ test.describe("Menu (Draft)", () => {
   });
 
   test("Statistik (TC007)", async ({ page }) => {
-    test.setTimeout(50000);
+    test.setTimeout(70000);
     await page.goto("https://sim.dev.masook.id/");
     await page.waitForLoadState("load");
     await page
@@ -693,5 +693,321 @@ test.describe("Menu (Draft)", () => {
         y: 181,
       },
     });
+    await page
+      .locator("header")
+      .filter({ hasText: "Statistik Kuesioner" })
+      .getByRole("button")
+      .nth(1)
+      .click();
+  });
+
+  test("Ubah (TC008)", async ({ page }) => {
+    test.setTimeout(50000);
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+    await page
+      .getByRole("row", { name: "testing Aktif 28 Feb 2025 s/d" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Ubah" }).click();
+    // tab informasi umum
+    await page.locator('[data-vv-name="nama"]').first().click();
+    await page.locator('[data-vv-name="nama"]').first().fill("testing coba 2");
+    await page.locator('[data-vv-name="nama"]').first().press("Enter");
+    await page.locator('[data-vv-name="deskripsi"]').click();
+    await page
+      .locator('[data-vv-name="deskripsi"]')
+      .fill("ini adalah testing percobaan kedua");
+    await page
+      .locator("div")
+      .filter({ hasText: /^Tampilkan Satu Per Satu$/ })
+      .locator("div")
+      .nth(1)
+      .click();
+    await page.getByRole("textbox", { name: "Cari Nama Responen" }).click();
+    await page
+      .getByRole("textbox", { name: "Cari Nama Responen" })
+      .fill("Dias");
+    await page
+      .getByRole("textbox", { name: "Cari Nama Responen" })
+      .press("Enter");
+    await page
+      .locator(
+        "tbody > tr > td > .v-input > .v-input__control > .v-input__slot"
+      )
+      .first()
+      .click();
+    // tab informasi umum
+
+    // tab kuesioner masook
+    await page.getByRole("tab", { name: "Kuesioner Masook" }).click();
+    await page.getByText("Tambah Opsi").click();
+    await page.getByRole("textbox", { name: "opsi 3" }).click();
+    await page.getByRole("textbox", { name: "opsi 3" }).fill("opsi cadangan");
+    await page.getByRole("textbox", { name: "opsi 3" }).press("Enter");
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .getByRole("button")
+      .nth(2)
+      .click();
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Duplikasi" }).click();
+    await expect(page.getByText("Pertanyaan ke - 2")).toBeVisible();
+
+    await page.getByRole("button", { name: "Pilihan Ganda" }).nth(1).click();
+    await page.getByRole("option", { name: "Tarik Turun" }).click();
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .locator("#moreMenu")
+      .nth(1)
+      .click();
+
+    await page
+      .locator(
+        "div:nth-child(2) > .v-card__text > .mt-2 > .row > div:nth-child(4) > .d-flex > .px-1 > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
+      )
+      .click();
+    await page.getByRole("button", { name: "Pertanyaan" }).click();
+    await expect(page.getByText("Pertanyaan ke - 3")).toBeVisible();
+    await page
+      .locator("div")
+      .filter({ hasText: /^Judul Kuesioner$/ })
+      .click();
+    await page.locator('[data-vv-name="survey_3"]').fill("pertanyaan cadangan");
+    await page.locator('[data-vv-name="survey_3"]').press("Enter");
+    await page
+      .locator(
+        "div:nth-child(3) > .v-card__text > .mt-2 > .row > div:nth-child(2) > .v-input > .v-input__control > .v-input__slot"
+      )
+      .click();
+    await page.getByRole("option", { name: "Kotak Centang" }).click();
+    await page.locator('input[placeholder="opsi 1"]').nth(2).fill("pilihan 1");
+    await page.locator('input[placeholder="opsi 1"]').nth(2).press("Enter");
+    await page.getByText("Tambah Opsi").nth(2).click();
+    await page
+      .locator(
+        "div:nth-child(3) > .v-card__text > .mt-2 > .row > div:nth-child(3) > div:nth-child(2) > div > .v-input"
+      )
+      .click();
+    await page.locator('input[placeholder="opsi 2"]').nth(2).fill("pilihan 2");
+    await page.locator('input[placeholder="opsi 2"]').nth(2).press("Enter");
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .locator("#moreMenu")
+      .nth(2)
+      .click();
+    await page.getByRole("menuitem", { name: "Duplikasi" }).click();
+    await expect(page.getByText("Pertanyaan ke - 4")).toBeVisible();
+    await page.getByRole("button", { name: "Kotak Centang" }).nth(1).click();
+    await page.getByRole("option", { name: "Jawaban Singkat" }).click();
+    await page
+      .locator(
+        "div:nth-child(4) > .v-card__text > .mt-2 > .row > div:nth-child(3)"
+      )
+      .click();
+    await page
+      .locator(
+        "div:nth-child(4) > .v-card__text > .mt-2 > .row > div:nth-child(3)"
+      )
+      .click();
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .locator("#moreMenu")
+      .nth(3)
+      .click();
+    await page.getByRole("menuitem", { name: "Duplikasi" }).click();
+    await expect(page.getByText("Pertanyaan ke - 5")).toBeVisible();
+    await page.getByRole("button", { name: "Jawaban Singkat" }).nth(1).click();
+    await page.getByRole("option", { name: "Jawaban Paragraf" }).click();
+    await page
+      .locator("form")
+      .filter({ hasText: "Pertanyaan ke - 1" })
+      .locator("#moreMenu")
+      .nth(4)
+      .click();
+    await page.getByRole("menuitem", { name: "Duplikasi" }).click();
+    await page
+      .locator(
+        "div:nth-child(5) > .v-card__text > .mt-2 > .row > div:nth-child(4) > .d-flex > .pt-5 > #moreMenu"
+      )
+      .click();
+    await page.getByRole("menuitem", { name: "Hapus" }).click();
+    await page.getByText("Pertanyaan ke - 5").click();
+    // tab kuesioner masook
+
+    // tab pratinjau kuesioner
+    await page.getByRole("tab", { name: "Pratinjau Kuesioner" }).click();
+    await page.getByText("test 1", { exact: true }).click();
+    await page.getByRole("button", { name: "Berikutnya" }).click();
+    await page
+      .locator("form")
+      .filter({ hasText: "testing apa ini?" })
+      .getByRole("button")
+      .click();
+    await page.getByRole("option", { name: "opsi cadangan" }).click();
+    await page.getByRole("button", { name: "Berikutnya" }).click();
+    await page
+      .locator("div")
+      .filter({ hasText: /^pilihan 1$/ })
+      .first()
+      .click();
+    await page
+      .locator("div")
+      .filter({ hasText: /^pilihan 2$/ })
+      .first()
+      .click();
+    await page.getByRole("button", { name: "Berikutnya" }).click();
+    await page.getByRole("textbox", { name: "Jawabah Anda" }).click();
+    await page
+      .getByRole("textbox", { name: "Jawabah Anda" })
+      .fill("jawaban testing");
+    await page.getByRole("button", { name: "Berikutnya" }).click();
+    await expect(
+      page.locator('.v-alert__content>[data-v-7ff26b30=""]').nth(1)
+    ).toHaveText("Pertanyaan ke 5 harus diisi");
+    // await page.getByRole('alert').filter({ hasText: 'Pertanyaan ke 5 harus diisi' }).click();
+    await page.getByRole("textbox", { name: "Jawaban Anda" }).click();
+    await page
+      .getByRole("textbox", { name: "Jawaban Anda" })
+      .fill("wajib dijawab");
+    await page.getByRole("button", { name: "Sebelumnya" }).click();
+    // tab pratinjau kuesioner
+    await page.getByRole("button", { name: "Simpan" }).click();
+    await page.getByRole("button", { name: "Simpan sebagai draft" }).click();
+    await expect(page.locator("td[data-v-44d2e47b]").nth(2)).toHaveText("2");
+  });
+
+  test("Duplikat (TC009)", async ({ page }) => {
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+    await page
+      .getByRole("row", { name: "testing coba 2 Aktif 28 Feb" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Duplikat" }).click();
+    await page.getByRole("button", { name: "Duplikat" }).click();
+    await page.getByText("Kuesioner berhasil di duplikasiTutup").click();
+    await expect(
+      page.locator("div").filter({ hasText: "Kuesioner berhasil di" }).nth(3)
+    ).toBeVisible();
+  });
+
+  test("Tayangkan (TC010)", async ({ page }) => {
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+await page.getByRole('row', { name: 'testing coba 2 Aktif 28 Feb' }).locator('#moreMenu').click();
+await page.getByRole('menuitem', { name: 'Tayangkan' }).click();
+await page.getByRole('button', { name: 'Ya, Tayangkan' }).click();
+await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di' }).nth(3)).toBeVisible();
+await expect(page.locator('span[data-v-44d2e47b]>.v-chip__content').nth(1)).toHaveText('Akan Tayang')
+
+  });
+
+  test("Hapus (TC011)", async ({ page }) => {
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+    await page.getByRole('row', { name: 'testing coba 2 Copy Draft 0' }).locator('#moreMenu').click();
+    await page.getByRole('menuitem', { name: 'Hapus' }).click();
+    await page.getByRole('button', { name: 'Ya Hapus' }).click();
+    await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di' }).nth(3)).toBeVisible();
+
+  });
+
+  test("Batal Tayang (TC012)", async ({ page }) => {
+    await page.goto("https://sim.dev.masook.id/");
+    await page.waitForLoadState("load");
+    await page
+      .getByRole("textbox", { name: "Username" })
+      .fill("operatorjmi@mail.com");
+    await page.getByRole("textbox", { name: "Kata Sandi" }).fill("111111");
+    await page.getByRole("button", { name: "Masuk" }).click();
+    await page.waitForLoadState("load");
+    await expect(page).toHaveURL("https://sim.dev.masook.id/#/pilihOrganisasi");
+
+    await page
+      .locator("div:nth-child(2) > .ra-0 > .v-card__text > .container")
+      .click();
+    await expect(page).toHaveURL(
+      "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
+    );
+
+    await page.getByRole("link", { name: "Kuesioner" }).click();
+    await page.getByRole('row', { name: 'testing coba 2 Aktif 28 Feb' }).locator('#moreMenu').click();
+    await page.getByRole('menuitem', { name: 'Batal Tayang' }).click();
+    await page.getByRole('button', { name: 'Ya, Batal Tayang' }).click();
+    await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di batal' }).nth(3)).toBeVisible();
+
   });
 });
