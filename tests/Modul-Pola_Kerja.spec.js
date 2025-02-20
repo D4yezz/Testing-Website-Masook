@@ -97,9 +97,18 @@ test("Unggah (TC003)", async ({ page }) => {
     await page.getByRole('button', { name: 'Kelola Instansi' }).click();
     await page.getByRole('link', { name: 'Pola Kerja' }).click();
 
-    //dilanjutkan kamis
-
+    await page.getByRole("button", { name: "Unggah Data" }).click();
+    await page
+      .locator('input[placeholder="Pilih file dengan format (.xlsx dan .xls)"]')
+      .setInputFiles(
+        "D:/PlayWright/Testing-Website-Masook/downloads & upload/Template-Unggah-Pola-Kerja-Februari-2025-jayantara_indonesia.xlsx"
+      );
+    
+      await page.getByRole('button', { name: 'Unggah', exact: true }).click();
+      await page.waitForTimeout(2000)
+      await page.getByRole('button', { name: 'Tutup' }).click();
 });
+
 
 test("Search (TC004)", async ({ page }) => {
     test.setTimeout(120000); // Timeout 2 menit
