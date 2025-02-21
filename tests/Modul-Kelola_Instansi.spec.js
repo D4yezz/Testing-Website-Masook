@@ -1,30 +1,38 @@
 import { test, expect } from "@playwright/test";
 
 test.describe('Toggle (TC001)', () => {
-    test("Search (TC001)", async ({ page }) => {
-        test.setTimeout(120000); // Timeout 2 menit
+  test("Search (TC001)", async ({ page }) => {
+    test.setTimeout(120000); // Timeout 2 menit
+
+    // Navigasi dan login
+    await page.goto('https://sim.dev.masook.id/#/login');
+    await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+    await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+    await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+
+    // Pilih organisasi dan buka Pola Kerja
+    await page.getByText('Jayantara Indonesia').click();
+    await page.getByRole('button', { name: 'Kelola Instansi' }).click();
+    await page.getByRole('link', { name: 'Perangkat Instansi' }).click();
+    await page.locator('#toggleSearch').click();
+    await page.getByRole('textbox', { name: 'Cari Perangkat Instansi' }).click();
     
-        // Navigasi dan login
-        await page.goto('https://sim.dev.masook.id/#/login');
-        await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
-        await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
-        await page.getByRole('button', { name: 'Masuk' }).click();
-        await expect(page).toHaveURL('https://sim.dev.masook.id/#/pilihOrganisasi');
+    // Cari 'xiaomi'
+    await page.locator('#caridata').fill('xiaomi');
+    await page.getByRole('button', { name: 'append icon' }).click();
+    await page.waitForTimeout(2000);
     
-        // Pilih organisasi dan buka Pola Kerja
-        await page.getByText('Jayantara Indonesia').click();
-        await page.getByRole('button', { name: 'Kelola Instansi' }).click();
-        await page.getByRole('link', { name: 'Perangkat Instansi' }).click();
-        await page.locator('#toggleSearch').click();
-        await page.getByRole('textbox', { name: 'Cari Perangkat Instansi' }).click();
-        await page.locator('#caridata').fill('xiaomi');
-        await page.getByRole('button', { name: 'append icon' }).click();
-        await page.waitForTimeout(2000);
-        
-        await page.locator('#caridata').click();
-        await page.locator('#caridata').fill('samsung');
-        await page.getByRole('button', { name: 'append icon' }).click();
-    });
+    // Cari 'samsung' dan expect baris pertama ada tulisan samsung
+    await page.locator('#caridata').click();
+    await page.locator('#caridata').fill('samsung');
+    await page.getByRole('button', { name: 'append icon' }).click();
+
+    // Tunggu hasil pencarian dan cek apakah ada tulisan 'samsung' di baris pertama
+    const firstResult = await page.locator('your-selector-for-first-result'); // Ganti dengan selector yang sesuai
+    await expect(firstResult).toHaveText('samsung');
+});
+
 
     test('Refresh (TC002)', async ({ page }) => {
         test.setTimeout(60000);
@@ -52,6 +60,8 @@ test.describe('Menu (TC002)', () => {
 
   test('Ubah(TC001)', async ({ page }) => {
     test.setTimeout(60000);
+  
+    // Login dan navigasi
     await page.goto('https://sim.dev.masook.id/#/login');
     await page.getByRole('textbox', { name: 'Username' }).click();
     await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
@@ -61,26 +71,24 @@ test.describe('Menu (TC002)', () => {
     await page.getByText('Jayantara Indonesia').click();
     await page.getByRole('button', { name: 'Kelola Instansi' }).click();
     await page.getByRole('link', { name: 'Perangkat Instansi' }).click();
+  
+    // Pilih perangkat yang ingin diubah
     await page.getByRole('row', { name: 'motorola-Moto G motorola-Moto' }).locator('#moreMenu').click();
     await page.getByRole('menuitem', { name: 'Ubah' }).click();
+    
+    // Isi form ubah
     await page.locator('[data-vv-name="nama"]').fill('motorola-Moto G ubah aowiejdowaindoiawndonwoidnawidan');
     await page.getByRole('spinbutton', { name: 'Latitude*' }).click();
     await page.locator('[data-vv-name="latitude"]').fill('12');
     await page.getByRole('spinbutton', { name: 'Longitude*' }).click();
     await page.locator('[data-vv-name="longitude"]').fill('-1111111112312313131231313123');
     await page.getByRole('button', { name: 'Simpan' }).click();
-    await page.getByRole('row', { name: 'motorola-Moto G ubah' }).locator('#moreMenu').click();
-    await page.getByRole('menuitem', { name: 'Ubah' }).click();
-    await page.locator('#input-376').click();
-    await page.locator('[data-vv-name="longitude"]').fill('');
-    await page.locator('#input-373').click();
-    await page.locator('[data-vv-name="latitude"]').fill('');
-    await page.locator('#input-370').click();
-    await page.locator('[data-vv-name="nama"]').fill('motorola-Moto G');
-    await page.getByRole('button', { name: 'Simpan' }).click();
-
-    
+  
+    // Verifikasi perubahan nama perangkat
+    const updatedName = await page.locator('text=motorola-Moto G ubah'); // Cek apakah ada nama baru di halaman
+    await expect(updatedName).toBeVisible(); // Pastikan nama yang diubah terlihat di halaman
   });
+  
 
     test('Hapus (TC002)', async ({ page }) => {
         test.setTimeout(60000);
