@@ -887,13 +887,6 @@ test.describe("Menu", () => {
     await expect(page).toHaveURL(
       "https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU"
     );
-    // await page.getByRole("button", { name: "Kelola Instansi" }).click();
-    // await page.getByRole("link", { name: "Jam Kerja" }).click();
-    // await page.getByRole("button", { name: "Goto Page" }).click();
-    // await page
-    //   .getByRole("row", { name: "testing jadwal Khusus 25 Feb" })
-    //   .locator("#moreMenu")
-    //   .click();
 
     // tambah data dummy
     await page.getByRole("button", { name: "Kelola Instansi" }).click();
@@ -912,17 +905,12 @@ test.describe("Menu", () => {
     await page.getByRole("textbox", { name: "Akhir Berlaku" }).click();
     await page
       .getByRole("menu")
-      .filter({ hasText: "2025Wed, Feb 19February 2025" }) //tanggal atau bulan harus diubah ketika menjalankan test
+      .filter({ hasText: "2025Fri, Feb 21February 2025" }) //tanggal atau bulan harus diubah ketika menjalankan test
       .getByLabel("Next month")
       .click();
     await page.getByRole("button", { name: "22" }).first().click();
     await page.getByRole("textbox", { name: "Deskripsi" }).click();
     await page.locator('[data-vv-name="keterangan"]').fill("ini testing");
-    // await page
-    // .getByRole("banner")
-    // .filter({ hasText: "Pilih Hari yang akan di" })
-    // .locator("button")
-    // .click();
     await page.getByRole("button", { name: "Presensi 2x (Datang dan" }).click();
     await page
       .getByRole("option", { name: "Presensi 3x (Datang, Awal" })
@@ -997,8 +985,6 @@ test.describe("Menu", () => {
       .first()
       .click();
     await page.getByRole("option", { name: "08" }).click();
-    // await page.locator('form').filter({ hasText: '08BatalResetPilih' }).getByRole('button').nth(1).click();
-    // await page.getByRole('option', { name: '00' }).locator('div').first().click();
     await page.getByRole("button", { name: "Pilih" }).click();
     await page.getByRole("button", { name: "Selanjutnya" }).click();
     await page
@@ -1127,11 +1113,6 @@ test.describe("Menu", () => {
       .getByRole("option", { name: "09" })
       .nth(1)
       .click({ force: true });
-    // await page
-    //   .getByRole("option", { name: "09" })
-    //   .locator("div")
-    //   .first()
-    //   .click({ force: true });
     await page.getByRole("button", { name: "Pilih" }).click();
     await page
       .locator(
@@ -1170,5 +1151,6 @@ test.describe("Menu", () => {
       .click();
     await page.getByRole("menuitem", { name: "Hapus" }).click();
     await page.getByRole("button", { name: "Ya" }).click();
+    await expect(page.getByRole('cell', { name: 'jam kerja 5 hari' })).toBeVisible();
   });
 });

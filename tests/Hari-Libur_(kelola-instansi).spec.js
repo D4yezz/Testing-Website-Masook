@@ -65,6 +65,8 @@ test.describe("Toggle", () => {
     await page.locator('form').getByRole('button').click();
     await page.getByRole('option', { name: 'Cuti Bersama' }).click();
     await page.getByRole('button', { name: 'Simpan' }).click();
+    await page.waitForLoadState("load");
+    await expect(page.getByRole('cell', { name: 'liburan test diubah' })).toBeVisible();
   });
 });
 

@@ -275,9 +275,11 @@ test.describe("Menu", () => {
       page.locator("#pick-avatar").click(),
     ]);
     await fileChooser.setFiles(
-      "D:/File Coding/RPL-SMKN-8-MALANG/PKL_24-25/PlayWright/Testing-Website-Masook/downloads & upload/captain.jpeg"
+      "D:/File Coding/RPL-SMKN-8-MALANG/PKL_24-25/PlayWright/Testing-Website-Masook/downloads & upload/biru.jpeg"
     );
     await page.getByRole("button", { name: "Simpan" }).click();
+await expect(page.locator('img[alt="avatar"]').nth(3)).not.toHaveAttribute('src', 'img/cewek.png');
+
   });
 
   test("Ubah (TC007)", async ({ page }) => {
@@ -308,10 +310,13 @@ test.describe("Menu", () => {
     await page.locator('[data-vv-name="nama"]').fill("test tambah data diubah");
     await page.getByRole("button", { name: "Perempuan" }).click();
     await page.getByRole("option", { name: "Laki-laki" }).click();
-    await page.getByRole("button", { name: "Lokasi Presensi" }).click();
+    await page.getByRole('button', { name: 'test ubah' }).click();
     await page
       .getByRole("option", { name: "test ubah", exact: true })
       .locator("i")
+      .click();
+    await page
+      .getByRole('option', { name: 'Test Aktif Ke nonaktif' })
       .click();
     await page.getByRole("button", { name: "Pilih" }).first().click();
     await page.getByRole("option", { name: "AKTIF", exact: true }).click();

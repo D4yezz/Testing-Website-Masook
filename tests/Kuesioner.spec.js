@@ -270,11 +270,11 @@ test.describe("Toggle", () => {
       .getByRole("button")
       .nth(1)
       .click();
-    await page
-      .getByRole("option", { name: "04" })
-      .locator("div")
-      .first()
-      .waitFor({ state: "visible", timeout: 3000 });
+    // await page
+    //   .getByRole("option", { name: "04" })
+    //   .locator("div")
+    //   .first()
+    //   .waitFor({ state: "visible", timeout: 3000 });
     await page
       .getByRole("option", { name: "04" })
       .locator("div")
@@ -339,9 +339,9 @@ test.describe("Toggle", () => {
     await page.getByText("Sedang Tayang").click();
     await page.getByRole("button", { name: "Reset Filter" }).click();
     await page.waitForLoadState("load");
-    await expect(page.getByText("Kamis, 13-02-2025 10:")).toHaveText(
-      "Kamis, 13-02-2025 10:44"
-    );
+    await expect(page.getByText("Kamis, 20-02-2025 10:")).toHaveText(
+      "Kamis, 20-02-2025 10:44"
+    ); //tanggal harus diubah setiap testing
     // Tombol Reset
 
     await page
@@ -585,7 +585,7 @@ test.describe("Menu (Draft)", () => {
   });
 
   test("Statistik (TC007)", async ({ page }) => {
-    test.setTimeout(70000);
+    test.setTimeout(50000);
     await page.goto("https://sim.dev.masook.id/");
     await page.waitForLoadState("load");
     await page
@@ -605,11 +605,13 @@ test.describe("Menu (Draft)", () => {
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
     await page
-      .getByRole("row", { name: "testing Aktif 28 Feb 2025 s/d" })
+      .getByRole("row", { name: "testing coba 2 Aktif 28 Feb 2025 s/d" })
       .locator("#moreMenu")
       .click();
     await page.getByRole("menuitem", { name: "Statistik" }).click();
-    await page.getByText("testing", { exact: true }).nth(1).click();
+    await expect(
+      page.getByText("testing coba 2", { exact: true }).nth(1)
+    ).toBeVisible();
 
     // toggle filter
     await page.getByRole("button").filter({ hasText: /^$/ }).nth(1).click();
@@ -681,18 +683,21 @@ test.describe("Menu (Draft)", () => {
         y: 131,
       },
     });
+    // await expect(page.locator("canvas")).toBeEmpty();
     await page.locator("canvas").click({
       position: {
         x: 237,
         y: 153,
       },
     });
+    // await expect(page.locator("canvas")).toBeEmpty();
     await page.locator("canvas").click({
       position: {
         x: 233,
         y: 181,
       },
     });
+    await expect(page.locator("canvas")).toBeEmpty();
     await page
       .locator("header")
       .filter({ hasText: "Statistik Kuesioner" })
@@ -951,12 +956,18 @@ test.describe("Menu (Draft)", () => {
     );
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
-await page.getByRole('row', { name: 'testing coba 2 Aktif 28 Feb' }).locator('#moreMenu').click();
-await page.getByRole('menuitem', { name: 'Tayangkan' }).click();
-await page.getByRole('button', { name: 'Ya, Tayangkan' }).click();
-await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di' }).nth(3)).toBeVisible();
-await expect(page.locator('span[data-v-44d2e47b]>.v-chip__content').nth(1)).toHaveText('Akan Tayang')
-
+    await page
+      .getByRole("row", { name: "testing coba 2 Aktif 28 Feb" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Tayangkan" }).click();
+    await page.getByRole("button", { name: "Ya, Tayangkan" }).click();
+    await expect(
+      page.locator("div").filter({ hasText: "Kuesioner berhasil di" }).nth(3)
+    ).toBeVisible();
+    await expect(
+      page.locator("span[data-v-44d2e47b]>.v-chip__content").nth(1)
+    ).toHaveText("Akan Tayang");
   });
 
   test("Hapus (TC011)", async ({ page }) => {
@@ -978,11 +989,15 @@ await expect(page.locator('span[data-v-44d2e47b]>.v-chip__content').nth(1)).toHa
     );
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
-    await page.getByRole('row', { name: 'testing coba 2 Copy Draft 0' }).locator('#moreMenu').click();
-    await page.getByRole('menuitem', { name: 'Hapus' }).click();
-    await page.getByRole('button', { name: 'Ya Hapus' }).click();
-    await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di' }).nth(3)).toBeVisible();
-
+    await page
+      .getByRole("row", { name: "testing coba 2 Copy Draft 0" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Hapus" }).click();
+    await page.getByRole("button", { name: "Ya Hapus" }).click();
+    await expect(
+      page.locator("div").filter({ hasText: "Kuesioner berhasil di" }).nth(3)
+    ).toBeVisible();
   });
 
   test("Batal Tayang (TC012)", async ({ page }) => {
@@ -1004,10 +1019,17 @@ await expect(page.locator('span[data-v-44d2e47b]>.v-chip__content').nth(1)).toHa
     );
 
     await page.getByRole("link", { name: "Kuesioner" }).click();
-    await page.getByRole('row', { name: 'testing coba 2 Aktif 28 Feb' }).locator('#moreMenu').click();
-    await page.getByRole('menuitem', { name: 'Batal Tayang' }).click();
-    await page.getByRole('button', { name: 'Ya, Batal Tayang' }).click();
-    await expect(page.locator('div').filter({ hasText: 'Kuesioner berhasil di batal' }).nth(3)).toBeVisible();
-
+    await page
+      .getByRole("row", { name: "testing coba 2 Aktif 28 Feb" })
+      .locator("#moreMenu")
+      .click();
+    await page.getByRole("menuitem", { name: "Batal Tayang" }).click();
+    await page.getByRole("button", { name: "Ya, Batal Tayang" }).click();
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: "Kuesioner berhasil di batal" })
+        .nth(3)
+    ).toBeVisible();
   });
 });

@@ -47,7 +47,8 @@ test.describe("Toggle", () => {
       .click();
     await page.getByRole("cell", { name: "21" }).nth(1).click();
     await page.getByRole("button", { name: "Reset" }).click();
-
+    await expect(page.locator('[for="kategori"]').first()).toHaveText(
+      "Kategori Ketidakhadiran");
     // Tombol Reset
 
     await page.getByRole("button", { name: "Kategori Ketidakhadiran" }).click();
@@ -68,7 +69,7 @@ test.describe("Toggle", () => {
       .first()
       .click();
     await page.getByRole("button", { name: "Cuti Tahunan" }).click();
-    await page.getByRole("option", { name: "Test ketidakhadiran" }).click();
+    await page.getByRole("option", { name: "Menemani Lahiran" }).click();
     await page
       .locator("div")
       .filter({ hasText: /^Tanggal Mulai Cuti$/ })
@@ -115,7 +116,7 @@ test.describe("Toggle", () => {
   });
 
   test("Tambah Data (TC003)", async ({ page }) => {
-    test.setTimeout(50000);
+    test.setTimeout(45000);
     await page.goto("https://sim.dev.masook.id/");
     await page.waitForLoadState("load");
     await page
@@ -153,8 +154,8 @@ test.describe("Toggle", () => {
       .click();
     await page
       .getByRole("menu")
-      .filter({ hasText: "2025Mon, Feb 17February" })
-      .getByLabel("Next month")
+      .filter({ hasText: "2025Fri, Feb 21February" })
+      .getByLabel("Next month") //tanggal atau bulan harus diubah
       .click();
     await page
       .getByRole("button", { name: "18" })
@@ -185,6 +186,7 @@ test.describe("Toggle", () => {
       .click();
     await page.getByRole("button", { name: "20", exact: true }).click();
     await page.getByRole("button", { name: "Simpan" }).click();
+    await expect(page.getByText('Februari 2025 1 Hari').first()).toBeVisible();
   });
 
   test("Muat Ulang (TC004)", async ({ page }) => {

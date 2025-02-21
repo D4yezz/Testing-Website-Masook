@@ -29,7 +29,10 @@ test.describe("Toggle", () => {
     await expect(page.getByRole("cell", { name: "Juni 2024" })).toBeVisible();
     // hapus search
     await page.getByRole("button", { name: "clear icon" }).click();
-    await page.getByRole("cell", { name: "Testing" }).click();
+    await expect(page.locator('[aria-label="clear icon"]')).toHaveClass(
+      "v-icon notranslate v-icon--disabled v-icon--link mdi mdi-close theme--light primary--text"
+    );
+    // await page.getByRole("cell", { name: "Testing" }).click();
   });
 
   test("Tambah Data (TC002)", async ({ page }) => {
