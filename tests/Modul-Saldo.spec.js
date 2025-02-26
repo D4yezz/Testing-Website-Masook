@@ -149,12 +149,48 @@ test.describe('Toggle (TC001)', () => {
     
        
         await page.getByRole('button', { name: 'Unggah Data' }).click();
-        await page.getByText('Pilih file dengan format (.').click();
-        await page.getByPlaceholder('Pilih file dengan format (.').setInputFiles('Template-Unggah-Saldo-Cuti-jayantara_indonesia (1).xlsx');
+        await page.getByPlaceholder('Pilih file dengan format (.').setInputFiles('D:/PlayWright/Testing-Website-Masook/downloads & upload/Template-Unggah-Saldo-Cuti-jayantara_indonesia (1).xlsx');
         await page.getByRole('button', { name: 'Unggah', exact: true }).click();
         await page.getByText('Data Saldo Cuti berhasil di importTutup').click();
-        await page.getByRole('button', { name: 'Tutup' }).click();
+        // await page.getByRole('button', { name: 'Tutup' }).click();
     });
     
 
 });
+
+test.describe('Menu (TC002)', () => {
+    test('Unggah (TC005)', async ({ page }) => {
+        test.setTimeout(60000);
+        await page.goto('https://sim.dev.masook.id/#/login');
+        await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+        await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+        await page.getByRole('button', { name: 'Masuk' }).click();
+        await page.getByText('Jayantara Indonesia').click();
+        await page.getByRole('button', { name: 'Ketidakhadiran' }).click();
+        await page.getByRole('link', { name: 'Saldo' }).click();
+        await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/saldoCuti');
+    
+        await page.getByRole('row', { name: 'Adi Pratamaaaaa cuti tahunan' }).locator('#moreMenu').click();
+        await page.getByRole('menu').locator('div').nth(1).click();
+        await page.locator('[data-vv-name="jml_sisa"]').fill('100000000');
+        await page.getByRole('button', { name: 'Simpan' }).click();
+        await page.getByRole('button', { name: 'Tutup' }).click();
+        await page.getByRole('row', { name: 'Adi Pratamaaaaa cuti tahunan' }).locator('#moreMenu').click();
+        await page.getByRole('menu').locator('div').nth(1).click();
+        await page.locator('[data-vv-name="jml_sisa"]').fill('100000000919129298129389182398123213');
+        await page.getByRole('button', { name: 'Simpan' }).click();
+        // await page.getByText('The jml sisa field must be an integer.Tutup').click();
+        await page.locator('[data-vv-name="jml_sisa"]').click();
+        await page.locator('[data-vv-name="jml_sisa"]').fill('10000000091912298129389182398123213');
+        await page.locator('[data-vv-name="jml_sisa"]').press('ControlOrMeta+a');
+        await page.locator('[data-vv-name="jml_sisa"]').fill('1928391283981290381290389102830198309128390183901283');
+        await page.getByRole('button', { name: 'Simpan' }).click();
+        await page.getByText('The jml sisa field must be an integer.Tutup').click();
+        await page.getByRole('button', { name: 'Tutup' }).click();
+        await page.locator('[data-vv-name="jml_sisa"]').click();
+        await page.locator('[data-vv-name="jml_sisa"]').press('ControlOrMeta+a');
+        await page.locator('[data-vv-name="jml_sisa"]').fill('10');
+        await page.getByRole('button', { name: 'Simpan' }).click();
+    });
+})
+
