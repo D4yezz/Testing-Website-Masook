@@ -62,5 +62,59 @@ import { test, expect } from "@playwright/test";
             await page.getByRole('option', { name: 'Dibatalkan' }).click();
             await page.getByRole('button', { name: 'Terapkan' }).click();
         });
-    });
 
+        test('Refresh (TC003)', async ({ page }) => {
+            test.setTimeout(60000);
+            await page.goto('https://sim.dev.masook.id/#/login');
+            await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+            await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+            await page.getByRole('button', { name: 'Masuk' }).click();
+            await page.getByText('Jayantara Indonesia').click();
+            await page.getByRole('button', { name: 'Ketidakhadiran' }).click();
+            await page.getByRole('link', { name: 'Ajuan' }).click();
+            await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/cuti');
+            await page.locator('#refresh').click();
+    
+             // Tunggu 2 detik untuk memastikan loading terlihat
+             await page.waitForSelector('.v-overlay__content .v-progress-circular', { state: 'hidden' });
+           
+           
+            await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/cuti');
+
+            
+            
+        });
+        
+
+    });
+    test.describe('Menu (TC002)', () => {
+        test.describe('Menu (TC002)', () => {
+            test('Detail(TC004)', async ({ page }) => {
+                test.setTimeout(60000);
+                await page.goto('https://sim.dev.masook.id/#/login');
+                await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+                await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+                await page.getByRole('button', { name: 'Masuk' }).click();
+                await page.getByText('Jayantara Indonesia').click();
+                await page.getByRole('button', { name: 'Ketidakhadiran' }).click();
+                await page.getByRole('link', { name: 'Ajuan' }).click();
+                await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/cuti');
+                
+                await page.locator('#moreMenu').first().click();
+                await page.getByRole('menuitem', { name: 'Detail' }).click();
+                await page.getByRole('paragraph').filter({ hasText: 'https://ax4dabczjygi.compat.' }).click();
+                const page3Promise = page.waitForEvent('popup');
+                await page.getByRole('link', { name: 'https://ax4dabczjygi.compat.' }).click();
+                const page3 = await page3Promise;
+                
+                // Tutup halaman lampiran
+                await page3.close();
+                
+                // Kembali ke halaman cuti setelah menutup lampiran
+                await page.goBack();
+                await expect(page).toHaveURL('https://sim.dev.masook.id/#/organisasi/ORG-BPDZNU/cuti');
+            });
+        });
+        
+    });
+    
