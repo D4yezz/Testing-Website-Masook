@@ -87,7 +87,7 @@ import { test, expect } from "@playwright/test";
         
 
     });
-    test.describe('Menu (TC002)', () => {
+   
         test.describe('Menu (TC002)', () => {
             test('Detail(TC004)', async ({ page }) => {
                 test.setTimeout(60000);
@@ -116,5 +116,5 @@ import { test, expect } from "@playwright/test";
             });
         });
         
-    });
+ 
     
